@@ -35,6 +35,7 @@ source $BP_DIR/lib/environment.sh
 source $BP_DIR/lib/binaries.sh
 source $BP_DIR/lib/cache.sh
 source $BP_DIR/lib/dependencies.sh
+source $BP_DIR/lib/ember.sh
 
 ### Handle errors
 
@@ -92,6 +93,8 @@ install_bins() {
     install_npm "$npm_engine" "$BUILD_DIR/.heroku/node"
   fi
   warn_old_npm
+
+  install_bower "" "$BUILD_DIR/.heroku/node"
 }
 
 header "Installing binaries"
@@ -121,6 +124,7 @@ build_dependencies() {
   if $PREBUILD; then
     echo "Prebuild detected (node_modules already exists)"
     rebuild_node_modules "$BUILD_DIR"
+
   else
     install_node_modules "$BUILD_DIR"
   fi
@@ -128,6 +132,9 @@ build_dependencies() {
 
 header "Building dependencies"
 build_dependencies | output "$LOG_FILE"
+
+header "Building Ember app"
+build_ember_app "$BUILD_DIR" | output "$LOG_FILE"
 
 cache_build() {
   local cache_directories=$(get_cache_directories)
