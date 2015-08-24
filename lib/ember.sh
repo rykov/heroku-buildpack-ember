@@ -23,7 +23,5 @@ install_bower() {
 build_ember_app() {
   local build_dir=${1:-}
   cd $build_dir
-
-  echo "Building Ember application"
   node_modules/.bin/ember build --environment=production 2>&1
 }

@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
 # bin/release <build-dir>
 
+if [ -f "$1"/dist/*.gem ]; then
+  package=($1/dist/*.gem)
+  package=$(basename "$package")
+else
+  exit 1
+fi
+
 cat << EOF
-addons: []
-default_process_types:
-  web: npm start
+---
+package: dist/$package
+kind: ruby
 EOF
