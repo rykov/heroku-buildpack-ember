@@ -93,8 +93,6 @@ install_bins() {
     install_npm "$npm_engine" "$BUILD_DIR/.heroku/node"
   fi
   warn_old_npm
-
-  install_bower "" "$BUILD_DIR/.heroku/node"
 }
 
 header "Installing binaries"
@@ -131,6 +129,7 @@ build_dependencies() {
 }
 
 header "Building dependencies"
+install_bower "" | output "$LOG_FILE"
 build_dependencies | output "$LOG_FILE"
 
 header "Building Ember app"
